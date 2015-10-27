@@ -22,7 +22,7 @@ export default RowComponent => class extends Component {
   render() {
     const expandColumn = getExpandColumn(this.props.rowData.expanded,
       this.props.rowData.hasChildren,
-      this.props.components.icons);
+      this.props.components.Icons);
 
     //TODO: this should probably have a css class associated with it.
     const expandColumnProperties = {expandColumn:

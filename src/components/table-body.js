@@ -21,7 +21,7 @@ class TableBody extends React.Component {
   }
 
   getRow(data, index) {
-    let rows = [<this.props.components.row rowData={data}
+    let rows = [<this.props.components.Row rowData={data}
       components={this.props.components}
       events={this.props.events}
       rowIndex={index}
@@ -48,4 +48,5 @@ class TableBody extends React.Component {
   }
 }
 
-export default TableBody;
+//Plugins expect a function
+export default Component => TableBody;

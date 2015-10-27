@@ -2,7 +2,7 @@
   "name": "griddle-subgrid-plugin",
   "version": "0.0.1",
   "description": "A plugin for displaying subgrids.",
-  "main": "index.js",
+  "main": "./build/griddle-subgrid-plugin.js",
   "scripts": {
     "test": "karma start --browsers PhantomJS",
     "start": "./node_modules/.bin/webpack --config webpack.config.js --watch",
@@ -36,6 +36,7 @@
     "immutable": "^3.7.2",
     "lodash.assign": "^3.2.0",
     "max-safe-integer": "^1.0.0",
+    "node-libs-browser": "^0.5.3",
     "object-assign": "~2.0.0",
     "react": "^0.14.0"
   }
