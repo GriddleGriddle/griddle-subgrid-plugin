@@ -9,6 +9,7 @@ export default {
   name: "GriddleSubgrid",
   actions,
   constants,
+  actions,
   helpers,
   states: initialState,
   reducers,

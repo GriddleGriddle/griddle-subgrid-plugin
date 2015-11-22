@@ -8,7 +8,7 @@ export default ColumnComponent => class extends Component {
       padding: (this.props.depth || 0) * 5
     };
 
-    return <ColumnComponent {...this.props} styles={styles} onClick={this._expandRow} />
+    return <ColumnComponent {...this.props} onClick={this._expandRow} />
   }
 
   _expandRow = () => {
