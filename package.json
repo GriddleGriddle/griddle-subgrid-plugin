@@ -33,6 +33,7 @@
     "webpack-dev-server": "~1.9.0"
   },
   "dependencies": {
+    "griddle-core": "0.0.7",
     "immutable": "^3.7.2",
     "lodash.assign": "^3.2.0",
     "max-safe-integer": "^1.0.0",

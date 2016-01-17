@@ -2,6 +2,10 @@ import Immutable from 'immutable';
 import MAX_SAFE_INTEGER from 'max-safe-integer';
 import extend from 'lodash.assign';
 
+import { GriddleHelpers } from 'griddle-core';
+const { data } = GriddleHelpers;
+const { getVisibleDataColumns } = data;
+
 /*
 OVERALL TODO:
   fix column order
@@ -24,6 +28,7 @@ function sortChildren(data, state, helpers, childrenPropertyName = 'children') {
   const sortAscending = state.getIn(['sortProperties', 'sortAscending']);
 
   if(!sortColumns || !helpers) { return data; }
+
   //TODO: can get rid of this layer -- was an artifact of moving stuff around
   const getSortedRows = (data, sort = false) => {
     const mappedData = data.map((row, index) => {
@@ -40,13 +45,17 @@ function sortChildren(data, state, helpers, childrenPropertyName = 'children') {
 
 export function AFTER_REDUCE(state, action, helpers) {
   const columns = helpers.getDataColumns(state, data);
+
   const properties = getProperties(columns);
   const data = transform(state.get('visibleData'), state, properties.childrenPropertyName);
 
   columns.push(properties.childrenPropertyName);
 
-  return state
-    .set('visibleData', sortChildren(helpers.getSortedColumns(data, columns), state, helpers, properties.childrenPropertyName));
+  const result = state
+    .set('visibleData', getVisibleChildData(sortChildren(helpers.getSortedColumns(data, columns), state, helpers, properties.childrenPropertyName), columns));
+
+console.log(result.toJSON().visibleData);
+  return result;
 }
 
 //TODO: Make this more efficient where it'll stop when it finds the record it's looking for
@@ -121,6 +130,31 @@ function getProperties(columns) {
     childrenPropertyName: 'children',
     columns: []
   }, columns);
+}
+
+function hasMetadata(data) {
+  const metadata = data.get(0).get('__metadata');
+  return metadata && metadata.size > 0;
+}
+
+//TODO: Refactor this logic -- This is probably way more expensive than it needs to be
+export function getVisibleChildData(data, columns, childrenPropertyName = 'children') {
+  //get the data and make sure metadata is applied
+  const dataWithMetadata = hasMetadata(data) ?
+    data :
+    getVisibleDataColumns(data, columns);
+
+  //go through each visible child row and set it to use the correct column settings
+  return dataWithMetadata.map((row, index) => {
+    let children = row.get(childrenPropertyName);
+
+    if(children && children.size > 0) {
+      children = getVisibleChildData(children, columns, childrenPropertyName);
+    }
+
+    return row
+      .set('children', children);
+  });
 }
 
 export function setRowProperties(data, properties, depth = 0, parentId = null) {

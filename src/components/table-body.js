@@ -33,7 +33,7 @@ class TableBody extends React.Component {
       columnProperties={this.props.renderProperties.columnProperties} />
     ];
 
-    if(data.children && data.children.length > 0 && data.expanded) {
+    if(data.children && data.children.length > 0 && data.__metadata.expanded) {
       rows.push(this.getRows(data.children));
     }
 

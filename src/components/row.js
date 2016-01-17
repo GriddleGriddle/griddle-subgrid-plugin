@@ -20,8 +20,8 @@ export default RowComponent => class extends Component {
   }
 
   render() {
-    const expandColumn = getExpandColumn(this.props.rowData.expanded,
-      this.props.rowData.hasChildren,
+    const expandColumn = getExpandColumn(this.props.rowData.__metadata.expanded,
+      this.props.rowData.__metadata.hasChildren,
       this.props.styles.icons);
     //TODO: this should probably have a css class associated with it.
     const expandColumnProperties = {expandColumn:
@@ -34,7 +34,8 @@ export default RowComponent => class extends Component {
     const rowData = Object.assign({}, expandColumn, this.props.rowData);
     const columnProperties = Object.assign({}, expandColumnProperties ,this.props.columnProperties)
 
-    return <RowComponent {...this.props} depth={this.props.rowData.depth || 0} rowData={rowData} columnProperties={columnProperties} />
+    const depth = this.props.rowData.__metadata.depth;
+    return <RowComponent {...this.props} depth={depth || 0} rowData={rowData} columnProperties={columnProperties} />
   }
 
 };

@@ -1,5 +1,5 @@
 import Column from './column';
-import Row from './Row';
+import Row from './row';
 import TableBody from './table-body';
 import TableHeading from './table-heading';
 
