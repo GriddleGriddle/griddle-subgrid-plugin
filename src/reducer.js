@@ -134,6 +134,7 @@ function hasMetadata(data) {
 
 //TODO: Refactor this logic -- This is probably way more expensive than it needs to be
 export function getVisibleChildData(data, columns, childrenPropertyName = 'children') {
+  if(data.size === 0) { return data }
   //get the data and make sure metadata is applied
   const dataWithMetadata = hasMetadata(data) ?
     data :
